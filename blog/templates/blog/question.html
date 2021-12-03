@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+   <div>
+       <p>
+        Hello Question
+       </p>
+    </div>
+
+    {% for Question in Questions %}
+        {{Question.Qnum}} 'and' {{Question.Qtext}}
+    {% endfor %}
+
+{% endblock content%}
