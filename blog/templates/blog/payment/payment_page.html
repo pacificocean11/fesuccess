@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FESuccess | Payment</title>
+    <link rel="stylesheet" href="{% static 'css/test.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- stripe styling -->
+
+    <style type="text/css">
+        /**
+             * The CSS shown here will not be introduced in the Quickstart guide, but shows
+             * how you can use CSS to style your Element's container.
+             */
+        .StripeElement {
+            box-sizing: border-box;
+
+            height: 40px;
+
+            padding: 10px 12px;
+
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background-color: white;
+
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+        }
+
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .StripeElement--invalid {
+            border-color: #fa755a;
+        }
+
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'blog-home' %}">
+                <!-- <img src="https://placeholder.pics/svg/150x50/888888/EEE/Logo" alt="..." height="36"> -->
+                <p style="font-family: cursive;padding-top: 10px;">FE Success</p>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'blog-home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'blog-home' %}">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        <div class="container d-flex justify-content-center mt-5 mb-5">
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-4"> <span>Summary</span>
+                    <div class="card">
+                        <div class="d-flex justify-content-between p-3">
+                            <div class="d-flex flex-column"> <span>Pro(Billed Monthly) <i
+                                        class="fa fa-caret-down"></i></span> <a href="#" class="billing">Save 20% with
+                                    annual billing</a> </div>
+                            <div class="mt-1"> <sup class="super-price">$9.99</sup> <span
+                                    class="super-month">/Month</span> </div>
+                        </div>
+                        <hr class="mt-0 line">
+                        <div class="p-3">
+                            <div class="d-flex justify-content-between mb-2"> <span>Refferal Bonouses</span>
+                                <span>-$2.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between"> <span>Vat <i class="fa fa-clock-o"></i></span>
+                                <span>-20%</span>
+                            </div>
+                        </div>
+                        <hr class="mt-0 line">
+                        <div class="p-3 d-flex justify-content-between">
+                            <div class="d-flex flex-column"> <span>Today you pay(US Dollars)</span> <small>After 30 days
+                                    $9.59</small> </div> <span>$0</span>
+                        </div>
+                        <div class="p-3"> <button class="btn btn-primary btn-block free-button">Try it free for 30
+                                days</button>
+                            <div class="text-center"> <a href="#">Have a promo code?</a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8"> <span>Payment Method</span>
+                    <div class="card">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header p-0">
+                                    <h2 class="mb-0"> <button class="btn btn-light btn-block text-left p-3 rounded-0"
+                                            data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span>Credit
+                                                    card</span>
+                                                <div class="icons"> <img src="https://i.imgur.com/2ISgYja.png"
+                                                        width="30"> <img src="https://i.imgur.com/W1vtnOV.png"
+                                                        width="30"> <img src="https://i.imgur.com/35tC99g.png"
+                                                        width="30"> <img src="https://i.imgur.com/2ISgYja.png"
+                                                        width="30"> </div>
+                                            </div>
+                                        </button> </h2>
+                                </div>
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#accordionExample">
+                                    <div class="card-body payment-card-body"> <span
+                                            class="font-weight-normal card-text">Card Number</span>
+                                        <div class="input"> <i class="fa fa-credit-card"></i> <input type="text"
+                                                class="form-control" placeholder="0000 0000 0000 0000"> </div>
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-md-6"> <span class="font-weight-normal card-text">Expiry
+                                                    Date</span>
+                                                <div class="input"> <i class="fa fa-calendar"></i> <input type="text"
+                                                        class="form-control" placeholder="MM/YY"> </div>
+                                            </div>
+                                            <div class="col-md-6"> <span
+                                                    class="font-weight-normal card-text">CVC/CVV</span>
+                                                <div class="input"> <i class="fa fa-lock"></i> <input type="text"
+                                                        class="form-control" placeholder="000"> </div>
+                                            </div>
+
+                                            <!-- stripe payment  -->
+                                            <form action="{% url 'charge' %}" method="post" id="payment-form">
+                                                {% csrf_token %}
+                                                <div class="form-row">
+                                                    <label for="card-element">
+                                                        Credit or debit card
+                                                    </label>
+                                                    <div id="card-element">
+                                                        <!-- A Stripe Element will be inserted here. -->
+                                                    </div>
+
+                                                    <!-- Used to display form errors. -->
+                                                    <div id="card-errors" role="alert"></div>
+                                                </div>
+                                            </form>
+                                        </div> <span class="text-muted certificate-text"><i class="fa fa-lock"></i>
+                                            Your
+                                            transaction is secured with ssl certificate</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- stripe script  -->
+    <script>
+        // Create a Stripe client.
+        var key = "{{stripe_secret}}";
+        var stripe = Stripe(key);
+
+        // Create an instance of Elements.
+        var elements = stripe.elements();
+
+        // Custom styling can be passed to options when creating an Element.
+        // (Note that this demo uses a wider set of styles than the guide below.)
+        var style = {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', { style: style });
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element.
+        card.addEventListener('change', function (event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Handle form submission.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        // Submit the form with the token ID.
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+        }
+    </script>
+
+</body>
+
+</html>

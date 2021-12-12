@@ -1,0 +1,44 @@
+<!-- <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'blog-home' %}">FE Success</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'blog-home' %}">Home</a>
+            </li>
+            <li class="nav-item active d-flex">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+        </ul>
+    </div>
+</nav> -->
+
+<header id="header" class="header">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a href="/" class="logo d-flex align-items-center">
+            <img src="/static/img/logo.png" alt="">
+            <span>FE Success</span>
+        </a>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a class="nav-link scrollto active" href="/">Home</a></li>
+                <!-- <li><a class="nav-link scrollto" href="#faq">FE Exam</a></li>
+                <li><a class="nav-link scrollto" href="#team">About Us</a></li>
+                <li><a class="nav-link scrollto" href="#pricing">Subscribe</a></li> -->
+                <li><a class="nav-link scrollto" href="http://52.37.224.180/cart">My Cart</a></li>
+                <li><a class="nav-link scrollto" href="http://52.37.224.180/user/login?current=/node">Members' Area</a>
+                </li>
+                <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                <li><a class="nav-link scrollto" href="http://52.37.224.180/videos">Videos</a></li>
+                <li><a class="getstarted scrollto" href="{% url 'blog-home' %}">Get Started</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+
+    </div>
+</header>
