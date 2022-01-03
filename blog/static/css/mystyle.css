@@ -75,6 +75,7 @@
 
 #user-input {
   border: none;
+  width: 90%;
 }
 
 #user-input:focus {
