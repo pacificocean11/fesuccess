@@ -10,7 +10,7 @@ urlpatterns = [
 
     # Stripe payment urls
 
-    path('details/<id>/', views.PackageDetailView.as_view(), name='details'),
+    path('details/<id>/', views.package_detail_view, name='details'),
 
     path('api/checkout-session/<id>/',
          views.create_checkout_session, name='api_checkout_session'),

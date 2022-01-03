@@ -57,16 +57,19 @@ def register(request):
 
 # Stripe payment views
 
-class PackageDetailView(LoginRequiredMixin, DetailView):
-    model = Package
-    template_name = 'blog/payment/product_detail.html'
-    pk_url_kwarg = 'id'
+@login_required
+def package_detail_view(request, id):
+    context = {}
+    try:
+        context['member'] = Member.objects.get(user=request.user)
+    except:
+        return HttpResponseRedirect(reverse('profile'))
 
-    def get_context_data(self, **kwargs):
-        context = super(PackageDetailView, self).get_context_data(**kwargs)
-        context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
-        context['member'] = Member.objects.get(user=self.request.user)
-        return context
+    context['object'] = Package.objects.get(id=id)
+    context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
+
+    return render(request, 'blog/payment/product_detail.html', context)
+
 
 
 @csrf_exempt

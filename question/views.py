@@ -141,6 +141,10 @@ def check_answer(request):
         return JsonResponse(response)
 
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
 def search(request):
     url_parameter = request.GET.get('q')
     if url_parameter:
@@ -149,12 +153,11 @@ def search(request):
     else:
         searched_topics = Topic.objects.all()
 
-    print(searched_topics)
     ctx = {}
 
     ctx['topics'] = searched_topics
 
-    if request.is_ajax():
+    if is_ajax(request=request):
         html = render_to_string(
             template_name="dashboard/topics-results-partial.html",
             context={"searched_topics": searched_topics}
