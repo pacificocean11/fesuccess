@@ -29,7 +29,10 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG')
 
 
-ALLOWED_HOSTS = ['fesuccess.herokuapp.com', '*']
+ALLOWED_HOSTS = ['fesuccess.herokuapp.com', '*', 'fesuccess.com']
+
+CSRF_TRUSTED_ORIGINS = ['https://www.fesuccess.com']
+
 
 
 # Application definition
