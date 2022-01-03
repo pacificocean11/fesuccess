@@ -25,60 +25,60 @@
             </div>
             <div class="card-body">
                 <div class="container row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <img src="/static/img/hero-img.png" alt="" class="img-fluid">
                     </div>
-                    <div class="col-md-6 align-items-center">
-                        <div class="p-2 mt-2">
+                    <div class="col-md-5 align-items-center">
+                        <div class="p-2 mt-2 d-flex justify-content-between">
 
-                            <h4 style="color:rgb(0, 0, 70);">Package Name: {{ object.name }}</h4>
+                            <h4>Package Name: </h4>
+                            <h4>{{ object.name }}</h4>
                         </div>
-                        <div class="p-2 mt-2">
+                        <div class="p-2 mt-2 d-flex justify-content-between">
 
-                            <h4 style="color: rgb(0, 0, 53);">Price: € {{ object.price }}</h4>
+                            <h4>Price:</h4>
+                            <h4>€ {{ object.price }}</h4>
                         </div>
-                        <div class="p-2 mt-2">
+                        <div class="p-2 mt-2 d-flex justify-content-between">
 
-                            <h4 style="color: rgb(0, 0, 53);">Validity:
-                                {{object.validity_in_months}}
-                                months</h4>
+                            <h4>Validity:</h4>
+                            <h4>{{object.validity_in_months}} months</h4>
                         </div>
-                        <div class="p-2 mt-2">
+                        <div class="p-2 mt-2 d-flex justify-content-between">
 
-                            <h4 style="color: rgb(0, 0, 53);">Discipline: {{ member.discipline }}
-                            </h4>
+                            <h4>Discipline:</h4>
+                            <h4>{{ member.discipline }}</h4>
                         </div>
-                        <div class="p-2 mt-2">
+                        <div class="p-2 mt-2 d-flex justify-content-between">
 
-                            <h4 style="color: rgb(0, 0, 53);">Name: {{ member.first_name }}
-                                {{member.last_name}}
-                            </h4>
+                            <h4>Name:</h4>
+                            <h4>{{ member.first_name }} {{member.last_name}}</h4>
                         </div>
-                        <div class="p-2 mt-2">
+                        <div class="p-2 mt-2 d-flex justify-content-between">
 
-                            <h4 style="color: rgb(0, 0, 53);">Email: {{ member.email }}
-                            </h4>
+                            <h4>Email:</h4>
+                            <h4>{{ member.email }}</h4>
                         </div>
 
-                        <div class="d-flex">
-                            <div class="">
-                                <div class="mt-2 p-2">
+                        <div class="row">
+                            <div class="mt-2 p-2 col-12" id="proceed">
 
-                                    <button class="ml-auto btn btn-primary text-center"
-                                        id="checkout-button">Checkout</button>
-                                </div>
+                                <button class="ml-auto btn btn-primary text-center w-100" id="checkout-button"
+                                    style="background-color: #5969F3;">Checkout</button>
                             </div>
-                            <div class="visually-hidden" id="loaders">
-                                <div class="spinner-grow text-success p-2 mt-3" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-warning p-2 mt-3" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-danger p-2 mt-3" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
+                            <div class="mt-2 p-2 visually-hidden col-12" id="loading">
+                                <button class="btn btn-primary w-100" type="button" disabled>
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    Loading...
+                                </button>
                             </div>
+
+
+                            <div class="p-2 col-12" id="cancel">
+                                <a href="{% url 'blog-home' %}" style="background-color: rgb(218, 218, 218);"
+                                    class="btn btn-light w-100">Cancel</a>
+                            </div>
+
                         </div>
 
 
@@ -97,8 +97,10 @@
     var checkoutButton = document.getElementById('checkout-button');
 
     checkoutButton.addEventListener('click', function () {
-        var loadButton = document.getElementById('loaders');
+        var loadButton = document.getElementById('loading');
+        var proceed = document.getElementById('proceed');
         loadButton.classList.remove('visually-hidden');
+        proceed.classList.add('visually-hidden');
 
         var email = '{{member.email}}';
         if (email.length == 0) {
