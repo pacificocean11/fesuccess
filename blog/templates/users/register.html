@@ -1,13 +1,13 @@
 {% extends 'users/base.html' %}
-{% block title %}Login{% endblock %}
+{% load static %}
+{% block title %}Register{% endblock %}
 {% block content %}
 <div class="mt-4">
     <section class="vh-100 align-items-center d-flex">
         <div class="container-fluid h-custom">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-md-9 col-lg-6 col-xl-5">
-                    <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-login-form/draw2.png"
-                        class="img-fluid" alt="Sample image">
+                    <img src="{% static 'img/auth.png' %}" class="img-fluid" alt="Sample image">
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <form method="post">
@@ -29,10 +29,7 @@
                             {% endfor %}
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
 
-                            <a href="#!" class="text-body">Forgot password?</a>
-                        </div>
 
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <button type="submit" class="btn btn-primary btn-lg"
@@ -56,7 +53,7 @@
 </div>
 <script>
     document.querySelectorAll('input, textarea').forEach(e => {
-        e.classList.add('form-control-lg');
+        e.classList.add('form-control');
     })
 </script>
 {% endblock %}

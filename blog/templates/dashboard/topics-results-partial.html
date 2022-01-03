@@ -1,0 +1,15 @@
+{% if searched_topics %}
+<div class="card sticky" style="z-index: 5;">
+    <div class="card-body">
+        <ul>
+            {% for topic in searched_topics %}
+            {% for subject in topic.related_subjects.all|slice:"1" %}
+            <div id="list-div" class="my-1">
+                <li><a href="{% url 'content:subject' subject.slug topic.slug %}">{{topic.topic_name}}</a></li>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}

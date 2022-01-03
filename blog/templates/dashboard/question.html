@@ -1,0 +1,249 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link ">
+                <i class="bi bi-grid"></i>
+                <span>{{subtopic.subtopic_name}}</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        {% for q in questions %}
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'content:question' subtopic.slug q.slug %}">
+                <i class="bi bi-chevron-double-right"></i>
+                <span>{{forloop.counter}}. {{q.title|truncatechars:20}}</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</aside>
+<!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'blog-home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <!-- topic name -->
+            <div class="col-9">
+                <div class="card">
+                    <div class="card-title">
+
+                        <h4 class="ms-3">Solved Example No. {{current_question.example_number}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="m-2 p-2">
+                            <h5>{{current_question.question_text|safe}}</h5>
+                        </div>
+
+                        <h4 class="ms-3">Options: </h4>
+                        <!-- options  -->
+                        <div class="row m-4 p-2">
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="mt-4 pt-3">
+                                    <input type="radio" class="form-check-input" name="option" id="option_a" value="1">
+                                    <label for="option_a">
+                                        <div class="d-flex justify-content-between option_a">
+                                            <h6 class="ms-4">{{current_question.option_a|safe}}</h6>
+                                            <!-- <i class="bi bi-check-circle ms-4" style="color: green;"></i> -->
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="mt-4 pt-3">
+                                    <input type="radio" class="form-check-input" name="option" id="option_b" value="2">
+                                    <label for="option_b">
+                                        <div class="d-flex justify-content-between option_b">
+                                            <h6 class="ms-4">{{current_question.option_b|safe}}</h6>
+                                            <!-- <i class="bi bi-x-circle ms-4" style="color: red;"></i> -->
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="mt-4 pt-3">
+                                    <input type="radio" class="form-check-input" name="option" id="option_c" value="3">
+                                    <label for="option_c">
+                                        <div class="d-flex justify-content-between option_c">
+                                            <h6 class="ms-4">{{current_question.option_c|safe}}</h6>
+                                            <!-- <i class="bi bi-x-circle ms-4" style="color: red;"></i> -->
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="mt-4 pt-3">
+                                    <input type="radio" class="form-check-input" name="option" id="option_d" value="4">
+                                    <label for="option_d">
+                                        <div class="d-flex justify-content-between option_d">
+                                            <h6 class="ms-4">{{current_question.option_d|safe}}</h6>
+                                            <!-- <i class="bi bi-x-circle ms-4" style="color: red;"></i> -->
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- end options  -->
+
+                        <div class="m-2 p-2 d-flex">
+                            <div class="m-2">
+                                <button id="check-answer">Check
+                                    Answer</button>
+                            </div>
+                            <div class="spinner-border text-primary m-2" id="spinner" role="status"
+                                style="display: none;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card" id="solution-div" style="visibility: hidden;height: 0px;">
+                    <div class="card-body">
+                        <div class="m-2 p-2">
+                            <h4>Solution: </h4>
+                            <h6 id="solution-text"></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end topic name -->
+            <div class="col-3">
+                <!-- Problem tags -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="my-1 p-2">
+
+                            <h4 style="color: #3b5998;">Problem tags</h4>
+                        </div>
+                        {% for tag in question_tags %}
+                        <div class="tag">
+                            {{ tag }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- end problem tags -->
+
+                <!-- solved problem -->
+                {% if solved_question %}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="my-1 p-2">
+                            <h4 style="color: #3b5998;">Past Submission</h4>
+                        </div>
+                        <p style="color: rgb(128, 128, 128);"><span style="color: #3b5998;" class="mx-2">Time:</span>
+                            {{solved_question.solving_time}}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+</main>
+<!-- End #main -->
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+<script src="{% static 'js/myscript.js' %}"></script>
+
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+    </script>
+
+<script>
+    let checkAnswer = document.getElementById('check-answer');
+
+    checkAnswer.addEventListener('click', function (event) {
+        event.preventDefault()
+
+        let data = new FormData();
+        const base_url = window.location.origin;
+
+        try {
+            let selectedAnswer = document.querySelector(
+                'input[name="option"]:checked'
+            );
+
+            data.append("selected_answer", selectedAnswer.value);
+        } catch {
+            alert("Please select an answer!");
+            return;
+        }
+        data.append("question_slug", window.location.pathname.split("/")[3])
+        data.append("csrfmiddlewaretoken", '{{csrf_token}}')
+        showSpinner();
+        axios.post(`${base_url}/check-answer/`, data)
+            .then((res) => {
+                console.log(res);
+                document.getElementById('solution-div').style.visibility = 'visible';
+                document.getElementById('solution-div').style.height = 'auto';
+                let solText = document.getElementById('solution-text');
+                solText.innerHTML = res.data.solution;
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                hidespinner();
+
+
+                if (res.data.correct == 1) {
+                    showCorrectIcon();
+                } else if (res.data.correct == 0) {
+                    var cad = "";
+                    if (res.data.correct_option == 1) {
+                        cad = "option_a";
+                    } else if (res.data.correct_option == 2) {
+                        cad = "option_b";
+                    } else if (res.data.correct_option == 3) {
+                        cad = "option_c";
+                    } else if (res.data.correct_option == 4) {
+                        cad = "option_d";
+                    }
+                    showWrongIcon(cad);
+                }
+                var button = document.getElementById('check-answer')
+                button.disabled = true;
+                button.style.backgroundColor = "rgb(95, 160, 95)";
+
+            })
+            .catch(errors => console.log(errors))
+
+    })
+
+</script>
+
+{% endblock %}

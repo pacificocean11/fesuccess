@@ -1,0 +1,100 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link ">
+                <i class="bi bi-grid"></i>
+                <span>{{topic}}</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        {% for st in subtopics %}
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav-{{forloop.counter}}" data-bs-toggle="collapse"
+                href="#">
+                <i class="bi bi-chevron-down mx-3"></i><span>{{st.subtopic_name}}</span>
+            </a>
+            <ul id="components-nav-{{forloop.counter}}" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'content:theory' subject.slug topic.slug st.slug  %}">
+                        <i class="bi bi-circle"></i><span>Theory</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'content:solved-example' subject.slug topic.slug st.slug %}">
+                        <i class="bi bi-circle"></i><span>Solved Examples</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+
+</aside>
+<!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'blog-home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <!-- topic name -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{current_subtopic.subtopic_name}}</h5>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end topic name -->
+
+            {% for q in questions %}
+            <div class="col-6">
+                <div class="card">
+                    <a href="{% url 'content:question' current_subtopic.slug q.slug %}">
+                        <div class="card-title ms-4">
+                            {{q.title}}
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        {{q.question_text|safe|truncatechars:50}}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+</main>
+<!-- End #main -->
+{% block scripts %}
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+{% endblock %}
+
+{% endblock %}

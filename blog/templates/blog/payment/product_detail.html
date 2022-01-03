@@ -1,36 +1,89 @@
 {% extends 'blog/payment/base.html' %}
+{% load static %}
 
 {% block title %}Package Detail{% endblock %}
 
+{% block style %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Kanit', sans-serif;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="p-5 mt-5">
-    <h1 class="text-center">Product Detail</h1>
     <div class="container">
 
-        <div class="card">
-            <div class="card-header">
-                <h2>Product Detail</h2>
+        <div class="card mt-4 p-3  shadow">
+            <div class="card-title">
+                <h1 class="text-center my-2 p-4" style="color: #022A70;font-weight: bold;">Package Details</h1>
             </div>
             <div class="card-body">
                 <div class="container row">
-                    <div class="col-md-4">
-                        <img src="https://dummyimage.com/250x250.gif?text={{ object.name }}" alt="">
+                    <div class="col-md-6">
+                        <img src="/static/img/hero-img.png" alt="" class="img-fluid">
                     </div>
-                    <div class="col-md-8">
-                        <h1 style="color:rgb(0, 0, 70)">Package Name: {{ object.name }}</h1>
-                        <h3 style="color: blue;">Price: € {{ object.price }}</h3>
+                    <div class="col-md-6 align-items-center">
+                        <div class="p-2 mt-2">
 
-                        <div class="form-outline mt-2">
-                            <label for="email" style="color: rgb(0, 0, 70);font-size: large;">Email: </label>
-                            <input type="email" name="email" id="email" class="d-flex form-control-lg"
-                                placeholder="Email">
-                            <small>Please enter your email address</small>
+                            <h4 style="color:rgb(0, 0, 70);">Package Name: {{ object.name }}</h4>
                         </div>
+                        <div class="p-2 mt-2">
+
+                            <h4 style="color: rgb(0, 0, 53);">Price: € {{ object.price }}</h4>
+                        </div>
+                        <div class="p-2 mt-2">
+
+                            <h4 style="color: rgb(0, 0, 53);">Validity:
+                                {{object.validity_in_months}}
+                                months</h4>
+                        </div>
+                        <div class="p-2 mt-2">
+
+                            <h4 style="color: rgb(0, 0, 53);">Discipline: {{ member.discipline }}
+                            </h4>
+                        </div>
+                        <div class="p-2 mt-2">
+
+                            <h4 style="color: rgb(0, 0, 53);">Name: {{ member.first_name }}
+                                {{member.last_name}}
+                            </h4>
+                        </div>
+                        <div class="p-2 mt-2">
+
+                            <h4 style="color: rgb(0, 0, 53);">Email: {{ member.email }}
+                            </h4>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="">
+                                <div class="mt-2 p-2">
+
+                                    <button class="ml-auto btn btn-primary text-center"
+                                        id="checkout-button">Checkout</button>
+                                </div>
+                            </div>
+                            <div class="visually-hidden" id="loaders">
+                                <div class="spinner-grow text-success p-2 mt-3" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-warning p-2 mt-3" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-danger p-2 mt-3" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
-            </div>
-            <div class="card-footer d-flex flex-row-reverse">
-                <button class="btn btn-success ml-auto" id="checkout-button">Checkout</button>
             </div>
         </div>
     </div>
@@ -44,15 +97,15 @@
     var checkoutButton = document.getElementById('checkout-button');
 
     checkoutButton.addEventListener('click', function () {
+        var loadButton = document.getElementById('loaders');
+        loadButton.classList.remove('visually-hidden');
 
-        var email = document.getElementById('email').value;
+        var email = '{{member.email}}';
         if (email.length == 0) {
             alert("Please enter your email address.");
             return;
         }
 
-        // Create a new Checkout Session using the server-side endpoint you
-        // created in step 3.
         fetch("{% url 'api_checkout_session' id=object.id %}", {
             method: 'POST',
             body: JSON.stringify(
@@ -66,9 +119,6 @@
                 return stripe.redirectToCheckout({ sessionId: session.sessionId });
             })
             .then(function (result) {
-                // If `redirectToCheckout` fails due to a browser or network
-                // error, you should display the localized error message to your
-                // customer using `error.message`.
                 if (result.error) {
                     alert(result.error.message);
                 }
@@ -79,3 +129,6 @@
     });
 </script>
 {% endblock content %}
+
+
+var email = document.getElementById('email').value;

@@ -25,21 +25,31 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['fesuccess.herokuapp.com']
+# if config('IS_HOSTED') == False:
+#     DEBUG = False
+# else:
+#     DEBUG = True
+
+DEBUG = False
+
+
+ALLOWED_HOSTS = ['fesuccess.herokuapp.com', '*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
+    'ckeditor',
+    'django_countries',
+    'question'
 ]
 
 MIDDLEWARE = [
@@ -116,6 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -129,8 +142,170 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/redirect'
 
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        # Toolbar configuration
+        # name - Toolbar name
+        # items - The buttons enabled in the toolbar
+        'toolbar_DefaultToolbarConfig': [
+            {
+                'name': 'basicstyles',
+                'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+                          'Superscript', ],
+            },
+            {
+                'name': 'clipboard',
+                'items': ['Undo', 'Redo', ],
+            },
+            {
+                'name': 'paragraph',
+                'items': ['NumberedList', 'BulletedList', 'Outdent', 'Indent',
+                          'HorizontalRule', 'JustifyLeft', 'JustifyCenter',
+                          'JustifyRight', 'JustifyBlock', ],
+            },
+            {
+                'name': 'format',
+                'items': ['Format', ],
+            },
+            {
+                'name': 'extra',
+                'items': ['Link', 'Unlink', 'Blockquote', 'Image', 'Table',
+                          'CodeSnippet', 'Mathjax', 'Embed', ],
+            },
+            {
+                'name': 'source',
+                'items': ['Maximize', 'Source', ],
+            },
+        ],
+
+        # This hides the default title provided by CKEditor
+        'title': False,
+
+        # Use this toolbar
+        'toolbar': 'DefaultToolbarConfig',
+
+        # Which tags to allow in format tab
+        'format_tags': 'p;h1;h2',
+
+        # Remove these dialog tabs (semicolon separated dialog:tab)
+        'removeDialogTabs': ';'.join([
+            'image:advanced',
+            'image:Link',
+            'link:upload',
+            'table:advanced',
+            'tableProperties:advanced',
+        ]),
+        'linkShowTargetTab': False,
+        'linkShowAdvancedTab': False,
+
+        # CKEditor height and width settings
+        'height': '400px',
+        'width': 'auto',
+        'forcePasteAsPlainText ': True,
+
+        # Class used inside span to render mathematical formulae using latex
+        'mathJaxClass': 'mathjax-latex',
+
+        # Mathjax library link to be used to render mathematical formulae
+        'mathJaxLib': 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_SVG',
+
+        # Tab = 4 spaces inside the editor
+        'tabSpaces': 4,
+
+        # Extra plugins to be used in the editor
+        'extraPlugins': ','.join([
+            # 'devtools',  # Shows a tooltip in dialog boxes for developers
+            'mathjax',  # Used to render mathematical formulae
+            'codesnippet',  # Used to add code snippets
+            'image2',  # Loads new and better image dialog
+            'embed',  # Used for embedding media (YouTube/Slideshare etc)
+            'tableresize',  # Used to allow resizing of columns in tables
+        ]),
+    },
+    'option': {
+        # Toolbar configuration
+        # name - Toolbar name
+        # items - The buttons enabled in the toolbar
+        'toolbar_DefaultToolbarConfig': [
+            {
+                'name': 'basicstyles',
+                'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+                          'Superscript', ],
+            },
+            {
+                'name': 'clipboard',
+                'items': ['Undo', 'Redo', ],
+            },
+            {
+                'name': 'paragraph',
+                'items': ['NumberedList', 'BulletedList', 'Outdent', 'Indent',
+                          'HorizontalRule', 'JustifyLeft', 'JustifyCenter',
+                          'JustifyRight', 'JustifyBlock', ],
+            },
+            {
+                'name': 'format',
+                'items': ['Format', ],
+            },
+            {
+                'name': 'extra',
+                'items': ['Link', 'Unlink', 'Blockquote', 'Image', 'Table',
+                          'CodeSnippet', 'Mathjax', 'Embed', ],
+            },
+            {
+                'name': 'source',
+                'items': ['Maximize', 'Source', ],
+            },
+        ],
+
+        # This hides the default title provided by CKEditor
+        'title': False,
+
+        # Use this toolbar
+        'toolbar': 'DefaultToolbarConfig',
+
+        # Which tags to allow in format tab
+        'format_tags': 'p;h1;h2',
+
+        # Remove these dialog tabs (semicolon separated dialog:tab)
+        'removeDialogTabs': ';'.join([
+            'image:advanced',
+            'image:Link',
+            'link:upload',
+            'table:advanced',
+            'tableProperties:advanced',
+        ]),
+        'linkShowTargetTab': False,
+        'linkShowAdvancedTab': False,
+
+        # CKEditor height and width settings
+        'height': '200px',
+        'width': 'auto',
+        'forcePasteAsPlainText ': True,
+
+        # Class used inside span to render mathematical formulae using latex
+        'mathJaxClass': 'mathjax-latex',
+
+        # Mathjax library link to be used to render mathematical formulae
+        'mathJaxLib': 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_SVG',
+
+        # Tab = 4 spaces inside the editor
+        'tabSpaces': 4,
+
+        # Extra plugins to be used in the editor
+        'extraPlugins': ','.join([
+            # 'devtools',  # Shows a tooltip in dialog boxes for developers
+            'mathjax',  # Used to render mathematical formulae
+            'codesnippet',  # Used to add code snippets
+            'image2',  # Loads new and better image dialog
+            'embed',  # Used for embedding media (YouTube/Slideshare etc)
+            'tableresize',  # Used to allow resizing of columns in tables
+        ]),
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -147,5 +322,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = '465'
 
 django_heroku.settings(locals())

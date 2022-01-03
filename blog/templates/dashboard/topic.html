@@ -1,0 +1,96 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link ">
+                <i class="bi bi-grid"></i>
+                <span>{{subject}}</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        {% for topic in topics %}
+
+        <li class="nav-item">
+            <a class="nav-link collapsed ms-2" href="{% url 'content:subject' subject.slug topic.slug %}">
+                <i class="bi bi-chevron-double-right"></i>
+                <span>{{topic.topic_name}}</span>
+            </a>
+        </li><!-- End Blank Page Nav -->
+        {% endfor %}
+    </ul>
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'blog-home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <!-- topic name -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{current_topic.topic_name}}</h5>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end topic name -->
+
+            <div class="col-lg-12">
+                <div class="row">
+                    {% for st in subtopic %}
+                    <div class="col-xxl-6 col-md-6 hover-card">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <a href="{% url 'content:theory' subject.slug current_topic.slug st.slug  %}">
+                                    <h5 class="card-title text-center">{{st.subtopic_name}}</h5>
+                                </a>
+                                <div class="d-flex align-items-center">
+
+                                    <div class="icon-container">
+
+                                        <img src="{{st.related_image}}" alt="image" class="icon-img">
+                                    </div>
+                                    <div class="ps-3">
+                                        <span>{{st.description | safe}}</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div><!-- End Left side columns -->
+
+            <!-- Right side columns -->
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+{% endblock %}

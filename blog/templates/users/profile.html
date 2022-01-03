@@ -1,0 +1,70 @@
+{% extends 'blog/payment/base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+
+    <section class="align-items-center d-flex">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-md-8 col-lg-8 col-xl-4 offset-xl-1">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row mt-4 p-2">
+                            <h1 class="text-center m-3 pt-3" style="color: rgb(21, 21, 53);font-weight: bold;">
+                                {{action}}</h1>
+                            {% for fm in form %}
+                            <div class="col-sm-6 col-lg-12 col-xs-6">
+                                <div class="form-outline mb-4">
+                                    {{fm.label_tag}}
+                                    <div class="form-control-lg">
+
+                                        {{fm}}
+                                    </div>
+                                </div>
+                                <small class="text-danger">
+                                    {{fm.errors|striptags}}</small>
+                            </div>
+                            {% endfor %}
+                            {% if note %}
+                            <p style="color: red;">Note: Discipline can't be changed once submitted</p>
+                            {% endif %}
+                        </div>
+
+
+
+
+                        {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger">{{error}}</p>
+                        {% endfor %}
+                        {% endif %}
+                        <div class="text-center text-lg-start m-2 p-2">
+                            <button type="submit" class="btn btn-primary m-2 p-2">Create Profile</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-md-9 col-lg-4 col-xl-5">
+
+                    <img src={% static 'img/profile_nonbg.png' %} class="img-fluid  .d-sm-none .d-md-block"
+                        alt="Sample image">
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+</div>
+<script>
+    document.querySelectorAll('input, textarea').forEach(e => {
+        e.classList.add('form-control');
+    })
+</script>
+{% endblock %}
