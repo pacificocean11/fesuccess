@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = config('DEBUG')
+DEBUG = config('DEBUG', False)==True
 
 ALLOWED_HOSTS = ['fesuccess.herokuapp.com', '*', 'fesuccess.com']
 
