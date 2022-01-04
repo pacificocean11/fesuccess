@@ -26,7 +26,6 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# DEBUG = False
 DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['fesuccess.herokuapp.com', '*', 'fesuccess.com']
@@ -38,8 +37,6 @@ CSRF_TRUSTED_ORIGINS = ['https://www.fesuccess.com']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'admin_volt.apps.AdminVoltConfig',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
